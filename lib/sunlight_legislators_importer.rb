@@ -1,15 +1,33 @@
+#require 'pry'
 require 'csv'
+
+require_relative '../app/models/legislator'
 
 class SunlightLegislatorsImporter
   def self.import(filename)
+    government_critters = []
     csv = CSV.new(File.open(filename), :headers => true, :header_converters => :symbol)
     csv.each do |row|
-      row.each do |field, value|
-        # TODO: begin
-        raise NotImplementedError, "TODO: figure out what to do with this row and do it!"
-        # TODO: end
-      end
+      name = "#{row[:firstname]} #{row[:lastname]}"
+      government_critters << { title:     row[:title],
+                               name:      name,
+                               email:     row[:email],
+                               phone:     row[:phone],
+                               fax:       row[:fax],
+                               website:   row[:website],
+                               webform:   row[:webform],
+                               party:     row[:party],
+                               gender:    row[:gender],
+                               birthdate: row[:birthdate],
+                               twitter_id:row[:twitter_id],
+                               state:     row[:state],
+                               in_office: row[:in_office]
+                              }
+ #                             binding.pry
     end
+      government_critters.each { |hash| Legislator.create!(hash)}
+      
+      #raise NotImplementedError, "TODO: figure out what to do with this row and do it!"
   end
 end
 

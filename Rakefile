@@ -13,6 +13,17 @@ task "db:drop" do
   rm_f 'db/ar-sunlight-legislators.sqlite3'
 end
 
+desc "start the console"
+task "db:console" do
+   system 'sqlite3 db/ar-sunlight-legislators.sqlite3'
+end
+
+desc "import the legislators"
+task "db:import_legislators" do
+	require_relative './lib/sunlight_legislators_importer'
+	SunlightLegislatorsImporter.import('./db/data/legislators.csv')
+end
+
 desc "migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
 task "db:migrate" do
   ActiveRecord::Migrator.migrations_paths << File.dirname(__FILE__) + 'db/migrate'
