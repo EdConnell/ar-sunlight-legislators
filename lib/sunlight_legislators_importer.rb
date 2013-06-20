@@ -2,7 +2,7 @@ require 'csv'
 
 class SunlightLegislatorsImporter
   def self.import(filename)
-    csv = CSV.new(File.open(filename), :headers => true)
+    csv = CSV.new(File.open(filename), :headers => true, :header_converters => :symbol)
     csv.each do |row|
       row.each do |field, value|
         # TODO: begin
