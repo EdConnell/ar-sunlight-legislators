@@ -18,6 +18,11 @@ task "db:console" do
    system 'sqlite3 db/ar-sunlight-legislators.sqlite3'
 end
 
+desc "start the SONIC console"
+task "console" do
+   system 'irb -r./db/config -r./app/models/legislator'
+end
+
 desc "import the legislators"
 task "db:import_legislators" do
 	require_relative './lib/sunlight_legislators_importer'
